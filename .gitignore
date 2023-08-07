@@ -1,3 +1,7 @@
+# media
+*.mp4
+
+
 # Miscellaneous
 *.class
 *.log
