@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tik_tok_clone/presentation/providers/discover_provider.dart';
+import 'package:tik_tok_clone/presentation/widgets/shared/video_scrollable_view.dart';
 
 class DiscoverScreen extends StatelessWidget {
   const DiscoverScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Discover Screen') 
-        ),
+    /// para pasarle la referencia de el provider de videos y que los actualice si llegan nuevos
+    final discoverProvider = context.watch<DiscoverProvider>();
+    return  Scaffold(
+      body: discoverProvider.initialLoading 
+            ? const Center(child: CircularProgressIndicator(strokeWidth: 2,),)
+            : VideoScrollableView(videos: discoverProvider.videos)
     );
   }
 }
