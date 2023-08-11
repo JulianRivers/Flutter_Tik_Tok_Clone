@@ -1,63 +1,60 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:tik_tok_clone/config/helpers/human_formats.dart';
-import 'package:tik_tok_clone/domain/entities/video_post.dart';
+import 'package:toktik/config/helpers/human_formats.dart';
+import 'package:toktik/domain/entities/video_post.dart';
+
 
 class VideoButtons extends StatelessWidget {
-  final VideoPost videoPost;
+
+  final VideoPost video;
 
   const VideoButtons({
-    super.key,
-    required this.videoPost,
+    super.key, 
+    required this.video
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _CustomIconButton(
-            value: videoPost.likes,
-            icon: Icons.favorite,
-            iconColor: Colors.red),
-        _CustomIconButton(
-          value: videoPost.views,
-          icon: Icons.remove_red_eye,
-        ),
+        _CustomIconButton( value: video.likes, iconColor: Colors.red, iconData: Icons.favorite, ),
+        const SizedBox( height: 20 ),
+        _CustomIconButton( value: video.views, iconData: Icons.remove_red_eye_outlined ),
+
+        const SizedBox( height: 20 ),
         SpinPerfect(
           infinite: true,
-          duration: const Duration(seconds: 5),
-            child: const _CustomIconButton(
-          value: 0,
-          icon: Icons.play_circle_outline,
-        ))
+          duration: const Duration( seconds: 5),
+          child: const _CustomIconButton( value: 0, iconData: Icons.play_circle_outline )
+        ),
       ],
     );
   }
 }
 
+
 class _CustomIconButton extends StatelessWidget {
+
   final int value;
-  final IconData icon;
-  final Color color;
+  final IconData iconData;
+  final Color? color;
 
   const _CustomIconButton({
-    required this.value,
-    required this.icon,
-    iconColor,
-  }) : color = iconColor ?? Colors.white;
+    required this.value, 
+    required this.iconData, 
+    iconColor
+  }): color = iconColor ?? Colors.white;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         IconButton(
-            onPressed: () {},
-            icon: Icon(
-              icon,
-              color: color,
-              size: 30,
-            )),
-        if (value > 0) Text(HumanFormats.humanReadableNumber(value.toDouble())),
+          onPressed: () {}, 
+          icon: Icon( iconData, color: color, size: 30, )),
+
+        if ( value > 0 )
+        Text( HumanFormats.humanReadbleNumber(value.toDouble()) ),
       ],
     );
   }

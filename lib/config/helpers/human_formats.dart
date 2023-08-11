@@ -1,13 +1,16 @@
-
 import 'package:intl/intl.dart';
 
 class HumanFormats {
 
-  static String humanReadableNumber( double number){
+  static String humanReadbleNumber( double number ) {
+    
     final formatterNumber = NumberFormat.compactCurrency(
       decimalDigits: 0,
-      symbol: ''
-    ).format(number);
+      symbol: '',
+    ).format( number );
+
     return formatterNumber;
   }
+
 }
+

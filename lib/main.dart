@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tik_tok_clone/config/theme/AppTheme.dart';
-import 'package:tik_tok_clone/presentation/providers/discover_provider.dart';
-import 'package:tik_tok_clone/presentation/screens/discover/discover_screen.dart';
+import 'package:toktik/config/theme/app_theme.dart';
+import 'package:toktik/infrastructure/datasources/local_video_datasource_impl.dart';
+import 'package:toktik/infrastructure/repositories/video_post_repository_impl.dart';
+import 'package:toktik/presentation/providers/discover_provider.dart';
+import 'package:toktik/presentation/screens/discover/discover_screen.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+void main() => runApp(const MyApp());
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final videoPostRepository = VideoPostRepositoryImpl(
+        videoPostDatasource: LocalVideoPostDatasource());
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          lazy: false,
-          create: (_) => DiscoverProvider()..loadNextPage()
-          )
+            lazy: false,
+            create: (_) =>
+                DiscoverProvider(videoRepository: videoPostRepository)
+                  ..loadNextPage()),
       ],
       child: MaterialApp(
-        title: 'TikTokClone',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme().getTheme(),
-        home: const DiscoverScreen(),
-      ),
+          title: 'TikTok Clone',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme().getTheme(),
+          home: const DiscoverScreen()),
     );
   }
 }
