@@ -41,17 +41,26 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator(strokeWidth: 2));
         }
-        return AspectRatio(
-          aspectRatio: controller.value.aspectRatio,
-          child: Stack(children: [
-            VideoPlayer(controller),
-            Positioned(
-                bottom: 50,
-                left: 20,
-                child: _VideoCaption(
-                  caption: widget.caption,
-                ))
-          ]),
+        return GestureDetector(
+          onTap: (){
+            if(controller.value.isPlaying){
+              controller.pause();
+              return;
+            }
+            controller.play();
+          },
+          child: AspectRatio(
+            aspectRatio: controller.value.aspectRatio,
+            child: Stack(children: [
+              VideoPlayer(controller),
+              Positioned(
+                  bottom: 50,
+                  left: 20,
+                  child: _VideoCaption(
+                    caption: widget.caption,
+                  ))
+            ]),
+          ),
         );
       },
     );
